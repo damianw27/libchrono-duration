@@ -3,7 +3,7 @@ import { DurationListener } from "$generated/duration-listener";
 import DurationVisitor from "$generated/duration-visitor";
 import { DurationParser } from "$generated/duration-parser";
 
-export class WeeksStatementContext extends ParserRuleContext {
+export class ValueStatementContext extends ParserRuleContext {
   constructor(parser?: DurationParser, parent?: ParserRuleContext, invokingState?: number) {
     super(parent, invokingState);
     this.parser = parser;
@@ -13,30 +13,26 @@ export class WeeksStatementContext extends ParserRuleContext {
     return this.getToken(DurationParser.NUMBER, 0);
   }
 
-  public WEEK(): TerminalNode {
-    return this.getToken(DurationParser.WEEK, 0);
-  }
-
   public get ruleIndex(): number {
-    return DurationParser.RULE_weeksStatement;
+    return DurationParser.RULE_valueStatement;
   }
 
   public enterRule(listener: DurationListener): void {
-    if (listener.enterWeeksStatement) {
-      listener.enterWeeksStatement(this);
+    if (listener.enterValueStatement) {
+      listener.enterValueStatement(this);
     }
   }
 
   public exitRule(listener: DurationListener): void {
-    if (listener.exitWeeksStatement) {
-      listener.exitWeeksStatement(this);
+    if (listener.exitValueStatement) {
+      listener.exitValueStatement(this);
     }
   }
 
   // @Override
   public accept<Result>(visitor: DurationVisitor<Result>): Result {
-    if (visitor.visitWeeksStatement) {
-      return visitor.visitWeeksStatement(this);
+    if (visitor.visitValueStatement) {
+      return visitor.visitValueStatement(this);
     } else {
       return visitor.visitChildren(this);
     }

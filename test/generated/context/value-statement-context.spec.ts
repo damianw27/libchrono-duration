@@ -2,38 +2,34 @@ import { DurationListener } from '$generated/duration-listener';
 import { DurationParser } from '$generated/duration-parser';
 import { DurationGrammarUtils } from '$core/duration-grammar-utils';
 
-describe('MinutesStatementContext', () => {
+describe('ValueStatementContext', () => {
   const listener: DurationListener = {
-    enterMinutesStatement: jest.fn(),
-    exitMinutesStatement: jest.fn(),
+    enterValueStatement: jest.fn(),
+    exitValueStatement: jest.fn(),
     visitTerminal: jest.fn(),
     visitErrorNode: jest.fn(),
     enterEveryRule: jest.fn(),
     exitEveryRule: jest.fn(),
   };
 
-  const parser = DurationGrammarUtils.getParser('10m');
-  const context = parser.minutesStatement();
+  const parser = DurationGrammarUtils.getParser('10');
+  const context = parser.valueStatement();
 
   test('should return rule index', () => {
-    expect(context.ruleIndex).toEqual(DurationParser.RULE_minutesStatement);
+    expect(context.ruleIndex).toEqual(DurationParser.RULE_valueStatement);
   });
 
   test('should call enterRule on listener', () => {
     context.enterRule(listener);
-    expect(listener.enterMinutesStatement).toHaveBeenCalledWith(context);
+    expect(listener.enterValueStatement).toHaveBeenCalledWith(context);
   });
 
   test('should call exitRule on listener', () => {
     context.exitRule(listener);
-    expect(listener.exitMinutesStatement).toHaveBeenCalledWith(context);
+    expect(listener.exitValueStatement).toHaveBeenCalledWith(context);
   });
 
   test('should get NUMBER token', () => {
     expect(context.NUMBER().getText()).toBe('10');
-  });
-
-  test('should get MINUTE token', () => {
-    expect(context.MINUTE().getText()).toBe('m');
   });
 });

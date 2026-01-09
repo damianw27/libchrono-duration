@@ -19,7 +19,7 @@ durationTerm
   ;
 
 durationTermTail
-  : (MUL | DIV) NUMBER
+  : (MUL | DIV) valueStatement
   ;
 
 durationFactor
@@ -53,21 +53,24 @@ secondsStatement
 
 millisecondsStatement
   : NUMBER MILLISECONDS
-  | NUMBER
+  ;
+
+valueStatement
+  : NUMBER
   ;
 
 // LEXER
-ADD:            '+';
-SUB:            '-';
-MUL:            '*';
-DIV:            '/';
-LP:             '(';
-RP:             ')';
-WEEK:           'w';
-DAY:            'd';
-HOUR:           'h';
-MINUTE:         'm';
-SECOND:         's';
+ADD:            [+];
+SUB:            [-];
+MUL:            [*];
+DIV:            [/];
+LP:             [(];
+RP:             [)];
+WEEK:           [w];
+DAY:            [d];
+HOUR:           [h];
+MINUTE:         [m];
+SECOND:         [s];
 MILLISECONDS:   'ms';
-NUMBER:         [0-9]+ ('.' [0-9]+)?;
+NUMBER:         [0-9]+ ('.' [0-9]*)?;
 WS:             [ \t\r\n]+ -> skip;

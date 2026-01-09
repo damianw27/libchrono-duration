@@ -1,6 +1,10 @@
 import { PlainDurationUtils } from '$core/plain-duration-utils';
+import { parseOptions } from '$core/option-utils';
+import { defaultOptions } from '$core/default-options';
 
 describe('PlainDurationUtils', () => {
+  const opt = parseOptions(defaultOptions);
+
   const duration1 = {
     weeks: 1,
     days: 0,
@@ -9,6 +13,7 @@ describe('PlainDurationUtils', () => {
     minutes: 4,
     seconds: 5,
   };
+
   const duration2 = {
     weeks: 0,
     days: 2,
@@ -17,6 +22,7 @@ describe('PlainDurationUtils', () => {
     seconds: 0,
     millis: 0,
   };
+
   const timestamp1 = 615845006;
   const timestamp2 = 173040000;
   const stringLiteral1 = '1w 3h 4m 5s 6ms';
@@ -24,28 +30,28 @@ describe('PlainDurationUtils', () => {
 
   describe('#getPlainDuration', () => {
     it('should return the expected PlainDuration object', () => {
-      const plainDuration = PlainDurationUtils.getPlainDuration(timestamp1);
+      const plainDuration = PlainDurationUtils.getPlainDuration(timestamp1, opt);
       expect(plainDuration).toEqual(duration1);
     });
   });
 
   describe('#getWeeks', () => {
     it('should return the expected number of weeks', () => {
-      const weeks = PlainDurationUtils.getWeeks(timestamp1);
+      const weeks = PlainDurationUtils.getWeeks(timestamp1, opt);
       expect(weeks).toBe(duration1.weeks);
     });
   });
 
   describe('#getDays', () => {
     it('should return the expected number of days', () => {
-      const days = PlainDurationUtils.getDays(timestamp1);
+      const days = PlainDurationUtils.getDays(timestamp1, opt);
       expect(days).toBe(duration1.days);
     });
   });
 
   describe('#getHours', () => {
     it('should return the expected number of hours', () => {
-      const hours = PlainDurationUtils.getHours(timestamp1);
+      const hours = PlainDurationUtils.getHours(timestamp1, opt);
       expect(hours).toBe(duration1.hours);
     });
   });
@@ -73,7 +79,7 @@ describe('PlainDurationUtils', () => {
 
   describe('#getTimestamp', () => {
     it('should return the expected timestamp', () => {
-      const timestamp = PlainDurationUtils.getTimestamp(duration2);
+      const timestamp = PlainDurationUtils.getTimestamp(duration2, opt);
       expect(timestamp).toBe(timestamp2);
     });
   });

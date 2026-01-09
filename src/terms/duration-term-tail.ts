@@ -4,12 +4,15 @@ import { DurationTermTailContext } from '$generated/context/duration-term-tail-c
 
 export class DurationTermTail implements BaseTail {
   public static of = (context: DurationTermTailContext): DurationTermTail => {
-    const operator = context.DIV() === undefined ? TermOperator.MUL : TermOperator.DIV;
-    const scalar = parseFloat(context.NUMBER().text ?? '0');
+    const operator = context.DIV() === null ? TermOperator.MUL : TermOperator.DIV;
+    const scalar = parseFloat(context.valueStatement().getText() ?? '0');
     return new DurationTermTail(operator, scalar);
   };
 
-  private constructor(private readonly operator: TermOperator, private readonly scalar: number) {}
+  private constructor(
+    private readonly operator: TermOperator,
+    private readonly scalar: number,
+  ) {}
 
   public apply = (timestamp: number): number => {
     switch (this.operator) {
@@ -18,6 +21,9 @@ export class DurationTermTail implements BaseTail {
 
       case TermOperator.DIV:
         return timestamp / this.scalar;
+
+      default:
+        throw new Error('Unsupported');
     }
   };
 

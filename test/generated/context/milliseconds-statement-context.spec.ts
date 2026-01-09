@@ -6,6 +6,10 @@ describe('MillisecondsStatementContext', () => {
   const listener: DurationListener = {
     enterMillisecondsStatement: jest.fn(),
     exitMillisecondsStatement: jest.fn(),
+    visitTerminal: jest.fn(),
+    visitErrorNode: jest.fn(),
+    enterEveryRule: jest.fn(),
+    exitEveryRule: jest.fn(),
   };
 
   const parser = DurationGrammarUtils.getParser('10ms');
@@ -26,16 +30,10 @@ describe('MillisecondsStatementContext', () => {
   });
 
   test('should get NUMBER token', () => {
-    expect(context.NUMBER().text).toBe('10');
+    expect(context.NUMBER().getText()).toBe('10');
   });
 
   test('should get MILLIS token', () => {
-    expect(context.MILLISECONDS()?.text).toBe('ms');
-  });
-
-  test('should get undefined from MILLIS token when MILLIS operator not provided', () => {
-    const parser = DurationGrammarUtils.getParser('10');
-    const context = parser.millisecondsStatement();
-    expect(context.MILLISECONDS()?.text).toBeUndefined();
+    expect(context.MILLISECONDS()?.getText()).toBe('ms');
   });
 });

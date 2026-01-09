@@ -7,12 +7,14 @@ import { HoursStatementContext } from '$generated/context/hours-statement-contex
 import { DaysStatementContext } from '$generated/context/days-statement-context';
 import { WeeksStatementContext } from '$generated/context/weeks-statement-context';
 import { DurationStatementContext } from '$generated/context/duration-statement-context';
+import { ParsedOptions } from '$core/types/parsed-options';
 
-const digitRegExp = new RegExp(/\d+/g);
+const digitRegExp = /\d+/g;
 
 const zeroSign = '0';
+const zeroValue = 0;
 
-export type DurationUnits =
+export type DurationContext =
   | WeeksStatementContext
   | DaysStatementContext
   | HoursStatementContext
@@ -23,7 +25,7 @@ export type DurationUnits =
 export class DurationStatement implements BaseOperand {
   public constructor(private readonly context: DurationStatementContext) {}
 
-  public solve = (): number => {
+  public solve = (opt: ParsedOptions): number => {
     const plainDuration = {
       weeks: this.extractValue(this.context.weeksStatement()),
       days: this.extractValue(this.context.daysStatement()),
@@ -33,9 +35,14 @@ export class DurationStatement implements BaseOperand {
       millis: this.extractValue(this.context.millisecondsStatement()),
     };
 
-    return PlainDurationUtils.getTimestamp(plainDuration);
+    return PlainDurationUtils.getTimestamp(plainDuration, opt);
   };
 
-  private extractValue = (context: DurationUnits | undefined): number =>
-    parseFloat(context?.text?.match(digitRegExp)?.[0] ?? zeroSign);
+  private extractValue = (context: DurationContext | null): number => {
+    if (context === null) {
+      return zeroValue;
+    }
+
+    return parseFloat(context.getText().match(digitRegExp)?.[0] ?? zeroSign);
+  };
 }

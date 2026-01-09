@@ -1,16 +1,20 @@
 import { DurationUtils } from '$core/duration-utils';
 import { Duration } from '$core/duration';
 import { PlainDuration } from '$core/types/plain-duration';
+import { parseOptions } from '$core/option-utils';
+import { defaultOptions } from '$core/default-options';
 
 describe('Duration', () => {
+  const opt = parseOptions(defaultOptions);
+
   describe('#of', () => {
     it('should create a new Duration instance', () => {
-      const duration = Duration.of({ weeks: 1, days: 2 });
+      const duration = Duration.of({ weeks: 1, days: 2 }, opt);
       expect(duration).toBeInstanceOf(Duration);
     });
 
     it('should create a new Duration instance with default PlainDuration if no arguments are provided', () => {
-      const duration = Duration.of({});
+      const duration = Duration.of({}, opt);
       expect(duration).toBeInstanceOf(Duration);
     });
   });

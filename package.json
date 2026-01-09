@@ -1,6 +1,6 @@
 {
-  "name": "@libchrono/core",
-  "version": "1.0.15",
+  "name": "@libchrono/duration",
+  "version": "1.0.2",
   "description": "Small library to handle durations parsing and displaying.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,17 +35,17 @@
     "build:types": "tsc --emitDeclarationOnly && tsc-alias -p tsconfig.json",
     "build:all": "yarn build:grammar && yarn build:lib && yarn build:types",
     "test": "jest",
-    "coverage": "yarn test --coverage && make-coverage-badge",
+    "coverage": "bun run test --coverage && make-coverage-badge",
     "documentation:generate": "typedoc",
     "documentation:deploy": "gh-pages -d docs",
-    "deploy": "yarn test && yarn build:all && yarn publish"
+    "deploy": "bun run test && bun run build:all && npm publish"
   },
   "devDependencies": {
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.3",
     "@typescript-eslint/eslint-plugin": "5.61.0",
     "@typescript-eslint/parser": "5.61.0",
-    "antlr4ts-cli": "^0.5.0-alpha.4",
+    "antlr4-cli": "^4.5.3",
     "eslint": "8.44.0",
     "eslint-config-crystal": "^0.0.8",
     "eslint-config-prettier": "8.8.0",
@@ -72,7 +72,8 @@
     "webpack-cli": "^5.0.2"
   },
   "dependencies": {
-    "antlr4ts": "^0.5.0-alpha.4",
+    "@libchrono/time": "^1.2.2",
+    "antlr4": "^4.13.2",
     "assert": "^2.0.0",
     "util": "^0.12.5"
   }

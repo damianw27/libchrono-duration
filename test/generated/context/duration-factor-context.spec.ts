@@ -11,6 +11,10 @@ describe('DurationFactorContext', () => {
   const listener: DurationListener = {
     enterDurationFactor: jest.fn(),
     exitDurationFactor: jest.fn(),
+    visitTerminal: jest.fn(),
+    visitErrorNode: jest.fn(),
+    enterEveryRule: jest.fn(),
+    exitEveryRule: jest.fn(),
   };
 
   const parser = DurationGrammarUtils.getParser('(10d + 1m)');
@@ -31,18 +35,18 @@ describe('DurationFactorContext', () => {
   });
 
   test('should get duration statement', () => {
-    expect(context.durationStatement()?.text).toBeUndefined();
+    expect(context.durationStatement()?.getText()).toBeUndefined();
   });
 
   test('should get duration expression', () => {
-    expect(context.durationExpression()?.text).toBe('10d+1m');
+    expect(context.durationExpression()?.getText()).toBe('10d+1m');
   });
 
   test('should get LP token', () => {
-    expect(context.LP()?.text).toBe('(');
+    expect(context.LP()?.getText()).toBe('(');
   });
 
   test('should get RP token', () => {
-    expect(context.RP()?.text).toBe(')');
+    expect(context.RP()?.getText()).toBe(')');
   });
 });

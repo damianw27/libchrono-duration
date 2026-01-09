@@ -28,7 +28,7 @@ describe('DurationLexer', () => {
         { type: 'EOF', text: '' },
       ];
 
-      const lexer = DurationGrammarUtils.getLexer(input)
+      const lexer = DurationGrammarUtils.getLexer(input);
       const actualTokens = [];
 
       let token = lexer.nextToken();
@@ -57,8 +57,8 @@ describe('DurationLexer', () => {
   describe('#vocabulary', () => {
     test('should return proper vocabulary', () => {
       const lexer = DurationGrammarUtils.getLexer('');
-      const vocabulary = lexer.vocabulary;
-      expect(vocabulary).toEqual(DurationLexer.VOCABULARY);
+      const vocabulary = lexer.getSymbolicNames();
+      expect(vocabulary).toEqual(DurationLexer.symbolicNames);
     });
   });
 
@@ -82,6 +82,7 @@ describe('DurationLexer', () => {
     test('should return proper atn', () => {
       const lexer = DurationGrammarUtils.getLexer('');
       const atn = lexer.serializedATN;
+      // eslint-disable-next-line no-underscore-dangle
       expect(atn).toEqual(DurationLexer._serializedATN);
     });
   });

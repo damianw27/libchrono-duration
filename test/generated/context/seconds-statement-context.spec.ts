@@ -6,6 +6,10 @@ describe('SecondsStatementContext', () => {
   const listener: DurationListener = {
     enterSecondsStatement: jest.fn(),
     exitSecondsStatement: jest.fn(),
+    visitTerminal: jest.fn(),
+    visitErrorNode: jest.fn(),
+    enterEveryRule: jest.fn(),
+    exitEveryRule: jest.fn(),
   };
 
   const parser = DurationGrammarUtils.getParser('10s');
@@ -26,10 +30,10 @@ describe('SecondsStatementContext', () => {
   });
 
   test('should get NUMBER token', () => {
-    expect(context.NUMBER().text).toBe('10');
+    expect(context.NUMBER().getText()).toBe('10');
   });
 
   test('should get NUMBER token', () => {
-    expect(context.SECOND().text).toBe('s');
+    expect(context.SECOND().getText()).toBe('s');
   });
 });

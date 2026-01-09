@@ -3,14 +3,16 @@ import { DurationFactor } from '$terms/duration-factor';
 import { DurationTermTail } from '$terms/duration-term-tail';
 import { DurationTermTailContext } from '$generated/context/duration-term-tail-context';
 import { DurationTermContext } from '$generated/context/duration-term-context';
+import { ParsedOptions } from '$core/types/parsed-options';
 
 export class DurationTerm implements BaseOperand {
   public static of = (context: DurationTermContext): DurationTerm => {
     const base = DurationFactor.of(context.durationFactor());
 
     const tails = context
-      .durationTermTail()
-      .map((tailContext: DurationTermTailContext) => DurationTermTail.of(tailContext));
+      .durationTermTail_list()
+      .map((tailContext: DurationTermTailContext) => DurationTermTail.of(tailContext))
+      .sort((a, b) => b.getOperator() - a.getOperator());
 
     return new DurationTerm(base, tails);
   };
@@ -20,8 +22,8 @@ export class DurationTerm implements BaseOperand {
     private readonly tails: DurationTermTail[],
   ) {}
 
-  public solve = (): number => {
-    let result = this.base.solve();
+  public solve = (ctx: ParsedOptions): number => {
+    let result = this.base.solve(ctx);
 
     this.tails.forEach((tail) => {
       result = tail.apply(result);

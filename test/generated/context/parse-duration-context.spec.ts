@@ -1,12 +1,15 @@
 import { DurationListener } from '$generated/duration-listener';
 import { DurationParser } from '$generated/duration-parser';
 import { DurationGrammarUtils } from '$core/duration-grammar-utils';
-import { ParseDurationContext } from '$generated/context/parse-duration-context';
 
 describe('ParseDurationContext', () => {
   const listener: DurationListener = {
     enterParseDuration: jest.fn(),
     exitParseDuration: jest.fn(),
+    visitTerminal: jest.fn(),
+    visitErrorNode: jest.fn(),
+    enterEveryRule: jest.fn(),
+    exitEveryRule: jest.fn(),
   };
 
   const parser = DurationGrammarUtils.getParser('10m + 2m');
@@ -27,14 +30,14 @@ describe('ParseDurationContext', () => {
   });
 
   test('should get undefined from duration statement', () => {
-    expect(context.durationStatement()?.text).toBeUndefined();
+    expect(context.durationStatement()?.getText()).toBeUndefined();
   });
 
   test('should get duration expression', () => {
-    expect(context.durationExpression()?.text).toBe('10m+2m');
+    expect(context.durationExpression()?.getText()).toBe('10m+2m');
   });
 
   test('should get EOF token', () => {
-    expect(context.EOF().text).toBe('<EOF>');
+    expect(context.EOF().getText()).toBe('<EOF>');
   });
 });

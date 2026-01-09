@@ -1,9 +1,14 @@
-import { ParserRuleContext } from 'antlr4ts/ParserRuleContext';
-import { TerminalNode } from 'antlr4ts/tree/TerminalNode';
-import { DurationListener } from '$generated/duration-listener';
-import { DurationParser } from '$generated/duration-parser';
+import { ParserRuleContext, TerminalNode } from "antlr4";
+import { DurationListener } from "$generated/duration-listener";
+import DurationVisitor from "$generated/duration-visitor";
+import { DurationParser } from "$generated/duration-parser";
 
 export class DaysStatementContext extends ParserRuleContext {
+  constructor(parser?: DurationParser, parent?: ParserRuleContext, invokingState?: number) {
+    super(parent, invokingState);
+    this.parser = parser;
+  }
+
   public NUMBER(): TerminalNode {
     return this.getToken(DurationParser.NUMBER, 0);
   }
@@ -12,26 +17,28 @@ export class DaysStatementContext extends ParserRuleContext {
     return this.getToken(DurationParser.DAY, 0);
   }
 
-  constructor(parent: ParserRuleContext | undefined, invokingState: number) {
-    super(parent, invokingState);
-  }
-
-  // @Override
   public get ruleIndex(): number {
     return DurationParser.RULE_daysStatement;
   }
 
-  // @Override
   public enterRule(listener: DurationListener): void {
     if (listener.enterDaysStatement) {
       listener.enterDaysStatement(this);
     }
   }
 
-  // @Override
   public exitRule(listener: DurationListener): void {
     if (listener.exitDaysStatement) {
       listener.exitDaysStatement(this);
+    }
+  }
+
+  // @Override
+  public accept<Result>(visitor: DurationVisitor<Result>): Result {
+    if (visitor.visitDaysStatement) {
+      return visitor.visitDaysStatement(this);
+    } else {
+      return visitor.visitChildren(this);
     }
   }
 }

@@ -1,12 +1,15 @@
 import { DurationListener } from '$generated/duration-listener';
 import { DurationParser } from '$generated/duration-parser';
-import { DaysStatementContext } from '$generated/context/days-statement-context';
 import { DurationGrammarUtils } from '$core/duration-grammar-utils';
 
 describe('DaysStatementContext', () => {
   const listener: DurationListener = {
     enterDaysStatement: jest.fn(),
     exitDaysStatement: jest.fn(),
+    visitTerminal: jest.fn(),
+    visitErrorNode: jest.fn(),
+    enterEveryRule: jest.fn(),
+    exitEveryRule: jest.fn(),
   };
 
   const parser = DurationGrammarUtils.getParser('10d');
@@ -27,10 +30,10 @@ describe('DaysStatementContext', () => {
   });
 
   test('should get NUMBER token', () => {
-    expect(context.NUMBER().text).toBe('10');
+    expect(context.NUMBER().getText()).toBe('10');
   });
 
   test('should get DAY token', () => {
-    expect(context.DAY().text).toBe('d');
+    expect(context.DAY().getText()).toBe('d');
   });
 });

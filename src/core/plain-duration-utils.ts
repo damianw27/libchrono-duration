@@ -1,12 +1,9 @@
 import { PlainDuration } from '$core/types/plain-duration';
+import { ParsedOptions } from '$core/types/parsed-options';
 
-const millisInWeek = 604_800_000;
-const millisInDay = 86_400_000;
 const millisInHour = 3_600_000;
 const millisInMinute = 60_000;
 const millisInSecond = 1_000;
-const daysInWeek = 7;
-const hoursInDay = 24;
 const minutesInHour = 60;
 const secondsInMinute = 60;
 const unitsOrder = ['w', 'd', 'h', 'm', 's', 'ms'];
@@ -28,11 +25,12 @@ export class PlainDurationUtils {
   /**
    * Method witch allows to converts timestamp in number format to PlainDuration.
    * @param {number} timestamp - duration timestamp
+   * @param {ParsedOptions} opt
    */
-  public static getPlainDuration = (timestamp: number): PlainDuration => ({
-    weeks: PlainDurationUtils.getWeeks(timestamp),
-    days: PlainDurationUtils.getDays(timestamp),
-    hours: PlainDurationUtils.getHours(timestamp),
+  public static getPlainDuration = (timestamp: number, opt: ParsedOptions): PlainDuration => ({
+    weeks: PlainDurationUtils.getWeeks(timestamp, opt),
+    days: PlainDurationUtils.getDays(timestamp, opt),
+    hours: PlainDurationUtils.getHours(timestamp, opt),
     minutes: PlainDurationUtils.getMinutes(timestamp),
     seconds: PlainDurationUtils.getSeconds(timestamp),
     millis: PlainDurationUtils.getMillis(timestamp),
@@ -41,22 +39,30 @@ export class PlainDurationUtils {
   /**
    * Method witch allows to extract weeks count from timestamp in number format.
    * @param {number} timestamp - duration timestamp
+   * @param {ParsedOptions} opt
    */
-  public static getWeeks = (timestamp: number): number => Math.floor(timestamp / millisInWeek);
+  public static getWeeks = (timestamp: number, opt: ParsedOptions): number =>
+    Math.floor(timestamp / opt.weekLengthInMillis);
 
   /**
    * Method witch allows to extract days count from timestamp in number format.
    * @param {number} timestamp - duration timestamp
+   * @param {ParsedOptions} opt
    */
-  public static getDays = (timestamp: number): number =>
-    Math.floor(timestamp / millisInDay) % daysInWeek;
+  public static getDays = (timestamp: number, opt: ParsedOptions): number => {
+    const weeksTimestamp = PlainDurationUtils.getWeeks(timestamp, opt) * opt.weekLengthInMillis;
+    return Math.floor((timestamp - weeksTimestamp) / opt.dayLengthInMillis);
+  };
 
   /**
    * Method witch allows to extract hours count from timestamp in number format.
    * @param {number} timestamp - duration timestamp
+   * @param {ParsedOptions} opt
    */
-  public static getHours = (timestamp: number): number =>
-    Math.floor(timestamp / millisInHour) % hoursInDay;
+  public static getHours = (timestamp: number, opt: ParsedOptions): number => {
+    const hoursInDay = opt.dayLengthInMillis / millisInHour;
+    return Math.floor(timestamp / millisInHour) % hoursInDay;
+  };
 
   /**
    * Method witch allows to extract minutes count from timestamp in number format.
@@ -81,10 +87,11 @@ export class PlainDurationUtils {
   /**
    * Method witch allows to converts PlainDuration to timestamp in number format.
    * @param {PlainDuration} plainDuration
+   * @param {ParsedOptions} opt
    */
-  public static getTimestamp = (plainDuration: PlainDuration): number => {
-    const millisInWeeks = plainDuration.weeks * millisInWeek;
-    const millisInDays = plainDuration.days * millisInDay;
+  public static getTimestamp = (plainDuration: PlainDuration, opt: ParsedOptions): number => {
+    const millisInWeeks = plainDuration.weeks * opt.weekLengthInMillis;
+    const millisInDays = plainDuration.days * opt.dayLengthInMillis;
     const millisInHours = plainDuration.hours * millisInHour;
     const millisInMinutes = plainDuration.minutes * millisInMinute;
     const millisInSeconds = plainDuration.seconds * millisInSecond;
@@ -117,9 +124,11 @@ export class PlainDurationUtils {
     if (aUnitIndex < bUnitIndex) {
       return -1;
     }
+
     if (aUnitIndex > bUnitIndex) {
       return 1;
     }
+
     const aNum = parseInt(a.slice(0, -1), 10);
     const bNum = parseInt(b.slice(0, -1), 10);
     return aNum - bNum;

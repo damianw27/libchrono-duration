@@ -7,6 +7,10 @@ describe('DurationExpressionContext', () => {
   const listener: DurationListener = {
     enterDurationExpression: jest.fn(),
     exitDurationExpression: jest.fn(),
+    visitTerminal: jest.fn(),
+    visitErrorNode: jest.fn(),
+    enterEveryRule: jest.fn(),
+    exitEveryRule: jest.fn(),
   };
 
   const parser = DurationGrammarUtils.getParser('10d + 1w');
@@ -27,10 +31,10 @@ describe('DurationExpressionContext', () => {
   });
 
   test('should get duration term', () => {
-    expect(context.durationTerm().text).toBe('10d');
+    expect(context.durationTerm().getText()).toBe('10d');
   });
 
   test('should get duration expression tail', () => {
-    expect(context.durationExpressionTail().length).toBe(1);
+    expect(context.durationExpressionTail_list().length).toBe(1);
   });
 });

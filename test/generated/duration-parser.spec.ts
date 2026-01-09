@@ -9,7 +9,7 @@ const isInputParsable = (input: string): boolean => {
   parser.parseDuration();
 
   return errorListener.errors.length === 0;
-}
+};
 
 describe('DurationParser', () => {
   describe('#parseDuration', () => {
@@ -26,9 +26,8 @@ describe('DurationParser', () => {
       '(1w-2d)+3h',
       '1w+2d*3',
       '1w-2d/3',
-      '123',
+      '123ms',
       '1d 1h 1m 1s 1ms',
-      '1d 1h 1m 1s 1',
     ];
 
     validExamples.forEach((input) => {
@@ -61,8 +60,8 @@ describe('DurationParser', () => {
   describe('#vocabulary', () => {
     test('should return proper vocabulary', () => {
       const parser = DurationGrammarUtils.getParser('');
-      const vocabulary = parser.vocabulary;
-      expect(vocabulary).toEqual(DurationParser.VOCABULARY);
+      const vocabulary = parser.getLiteralNames();
+      expect(vocabulary).toEqual(DurationParser.literalNames);
     });
   });
 

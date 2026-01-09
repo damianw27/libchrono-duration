@@ -1,42 +1,49 @@
-import { ParserRuleContext } from 'antlr4ts/ParserRuleContext';
-import { TerminalNode } from 'antlr4ts/tree/TerminalNode';
-import { DurationListener } from '$generated/duration-listener';
-import { DurationParser } from '$generated/duration-parser';
-import { DurationExpressionContext } from '$generated/context/duration-expression-context';
+import { ParserRuleContext, TerminalNode } from "antlr4";
+import { DurationExpressionContext } from "$generated/context/duration-expression-context";
+import { DurationListener } from "$generated/duration-listener";
+import DurationVisitor from "$generated/duration-visitor";
+import { DurationParser } from "$generated/duration-parser";
 
 export class DurationExpressionTailContext extends ParserRuleContext {
-  public durationExpression(): DurationExpressionContext {
-    return this.getRuleContext(0, DurationExpressionContext);
-  }
-
-  public ADD(): TerminalNode | undefined {
-    return this.tryGetToken(DurationParser.ADD, 0);
-  }
-
-  public SUB(): TerminalNode | undefined {
-    return this.tryGetToken(DurationParser.SUB, 0);
-  }
-
-  constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+  constructor(parser?: DurationParser, parent?: ParserRuleContext, invokingState?: number) {
     super(parent, invokingState);
+    this.parser = parser;
   }
 
-  // @Override
+  public durationExpression(): DurationExpressionContext {
+    return this.getTypedRuleContext(DurationExpressionContext, 0) as DurationExpressionContext;
+  }
+
+  public ADD(): TerminalNode {
+    return this.getToken(DurationParser.ADD, 0);
+  }
+
+  public SUB(): TerminalNode {
+    return this.getToken(DurationParser.SUB, 0);
+  }
+
   public get ruleIndex(): number {
     return DurationParser.RULE_durationExpressionTail;
   }
 
-  // @Override
   public enterRule(listener: DurationListener): void {
     if (listener.enterDurationExpressionTail) {
       listener.enterDurationExpressionTail(this);
     }
   }
 
-  // @Override
   public exitRule(listener: DurationListener): void {
     if (listener.exitDurationExpressionTail) {
       listener.exitDurationExpressionTail(this);
+    }
+  }
+
+  // @Override
+  public accept<Result>(visitor: DurationVisitor<Result>): Result {
+    if (visitor.visitDurationExpressionTail) {
+      return visitor.visitDurationExpressionTail(this);
+    } else {
+      return visitor.visitChildren(this);
     }
   }
 }

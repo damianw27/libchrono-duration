@@ -1,5 +1,6 @@
 import { PlainDuration } from '$core/types/plain-duration';
 import { PlainDurationUtils } from '$core/plain-duration-utils';
+import { ParsedOptions } from '$core/types/parsed-options';
 
 /**
  * Class witch represent duration string. This class allows to perform some
@@ -9,19 +10,23 @@ export class Duration {
   /**
    * Method allowing to construct new Duration class from PlainDuration.
    * @param {PlainDuration} plainDuration
+   * @param {ParsedOptions} opt
    */
-  public static of = (plainDuration: Partial<PlainDuration>): Duration => {
-    const timestamp = PlainDurationUtils.getTimestamp({
-      weeks: 0,
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-      millis: 0,
-      ...plainDuration,
-    });
+  public static of = (plainDuration: Partial<PlainDuration>, opt: ParsedOptions): Duration => {
+    const timestamp = PlainDurationUtils.getTimestamp(
+      {
+        weeks: 0,
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        millis: 0,
+        ...plainDuration,
+      },
+      opt,
+    );
 
-    return new Duration(timestamp);
+    return new Duration(timestamp, opt);
   };
 
   /**
@@ -29,27 +34,32 @@ export class Duration {
    */
   public readonly timestamp: number;
 
-  public constructor(timestamp: number) {
+  private readonly opt: ParsedOptions;
+
+  public constructor(timestamp: number, opt: ParsedOptions) {
     this.timestamp = timestamp;
+    this.opt = opt;
   }
 
   /**
    * Method which allow to sum durations.
    * @param {Duration} duration
    */
-  public add = (duration: Duration): Duration => new Duration(this.timestamp + duration.timestamp);
+  public add = (duration: Duration): Duration =>
+    new Duration(this.timestamp + duration.timestamp, this.opt);
 
   /**
    * Method which allow to subtract durations.
    * @param {Duration} duration
    */
-  public sub = (duration: Duration): Duration => new Duration(this.timestamp - duration.timestamp);
+  public sub = (duration: Duration): Duration =>
+    new Duration(this.timestamp - duration.timestamp, this.opt);
 
   /**
    * Method which allow to multiply durations.
    * @param {number} scalar
    */
-  public mul = (scalar: number): Duration => new Duration(this.timestamp * scalar);
+  public mul = (scalar: number): Duration => new Duration(this.timestamp * scalar, this.opt);
 
   /**
    * Method which allow to divide durations.
@@ -60,23 +70,23 @@ export class Duration {
       throw new Error('Division by zero is not allowed');
     }
 
-    return new Duration(this.timestamp / scalar);
+    return new Duration(this.timestamp / scalar, this.opt);
   };
 
   /**
    * Method which allow to return current count of weeks.
    */
-  public getWeeks = (): number => PlainDurationUtils.getWeeks(this.timestamp);
+  public getWeeks = (): number => PlainDurationUtils.getWeeks(this.timestamp, this.opt);
 
   /**
    * Method which allow to return current count of days.
    */
-  public getDays = (): number => PlainDurationUtils.getDays(this.timestamp);
+  public getDays = (): number => PlainDurationUtils.getDays(this.timestamp, this.opt);
 
   /**
    * Method which allow to return current count of hours.
    */
-  public getHours = (): number => PlainDurationUtils.getHours(this.timestamp);
+  public getHours = (): number => PlainDurationUtils.getHours(this.timestamp, this.opt);
 
   /**
    * Method which allow to return current count of minutes.
@@ -96,7 +106,8 @@ export class Duration {
   /**
    * Method which allow to convert Duration to PlainDuration
    */
-  public toPlainDuration = (): PlainDuration => PlainDurationUtils.getPlainDuration(this.timestamp);
+  public toPlainDuration = (): PlainDuration =>
+    PlainDurationUtils.getPlainDuration(this.timestamp, this.opt);
 
   /**
    * Method which allow to represent Duration as string for example: 1d 20h 10m
@@ -107,19 +118,24 @@ export class Duration {
   /**
    * Method which allow to returns count of weeks
    */
-  public toWeeks = (): number => PlainDurationUtils.getWeeks(this.timestamp);
+  public toWeeks = (): number => PlainDurationUtils.getWeeks(this.timestamp, this.opt);
 
   /**
    * Method which allow to returns count of days with weeks converted to days
    */
-  public toDays = (): number =>
-    PlainDurationUtils.getDays(this.timestamp) + +PlainDurationUtils.getWeeks(this.timestamp) * 7;
+  public toDays = (): number => {
+    return (
+      PlainDurationUtils.getDays(this.timestamp, this.opt) +
+      PlainDurationUtils.getWeeks(this.timestamp, this.opt) * this.opt.daysInWeek
+    );
+  };
 
   /**
    * Method which allow to returns count of hours with days and weeks converted
    * to hours
    */
-  public toHours = (): number => PlainDurationUtils.getHours(this.timestamp) + this.toDays() * 24;
+  public toHours = (): number =>
+    PlainDurationUtils.getHours(this.timestamp, this.opt) + this.toDays() * this.opt.hoursInDay;
 
   /**
    * Method which allow to returns count of minutes with hours, days and weeks

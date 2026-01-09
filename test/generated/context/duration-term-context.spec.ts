@@ -1,12 +1,15 @@
 import { DurationListener } from '$generated/duration-listener';
 import { DurationParser } from '$generated/duration-parser';
-import { DurationTermContext } from '$root/generated/context/duration-term-context';
 import { DurationGrammarUtils } from '$core/duration-grammar-utils';
 
 describe('DurationTermContext', () => {
   const listener: DurationListener = {
     enterDurationTerm: jest.fn(),
     exitDurationTerm: jest.fn(),
+    visitTerminal: jest.fn(),
+    visitErrorNode: jest.fn(),
+    enterEveryRule: jest.fn(),
+    exitEveryRule: jest.fn(),
   };
 
   const parser = DurationGrammarUtils.getParser('10d * 2');
@@ -27,10 +30,10 @@ describe('DurationTermContext', () => {
   });
 
   test('should get duration factor', () => {
-    expect(context.durationFactor()?.text).toBe('10d');
+    expect(context.durationFactor()?.getText()).toBe('10d');
   });
 
   test('should get duration factor', () => {
-    expect(context.durationTermTail().length).toBe(1);
+    expect(context.durationTermTail_list().length).toBe(1);
   });
 });

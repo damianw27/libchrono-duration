@@ -9,6 +9,10 @@ import { PlainDurationUtils } from '$core/plain-duration-utils';
 import { isDurationExpressionContext } from '$terms/contexts-guards';
 import { DurationGrammarUtils } from '$core/duration-grammar-utils';
 import { ParseDurationContext } from '$generated/context/parse-duration-context';
+import { Options } from '$core/types/options';
+import { defaultOptions } from '$core/default-options';
+import { parseOptions } from '$core/option-utils';
+import { ParsedOptions } from '$core/types/parsed-options';
 
 /**
  * Utils class witch allows to convert and validate duration string literals.
@@ -17,8 +21,10 @@ export class DurationUtils {
   /**
    * Method witch allows to parse duration string literals to Duration class.
    * @param {string} input - duration string literal
+   * @param {Options} opt
    */
-  public static parse = (input: string): Duration => {
+  public static parse = (input: string, opt: Options = defaultOptions): Duration => {
+    const parsedOpt = parseOptions(opt);
     const errorListener = new DurationErrorListener();
     const parser = DurationGrammarUtils.getParser(input, errorListener);
     parser.removeErrorListeners();
@@ -26,9 +32,8 @@ export class DurationUtils {
 
     try {
       const result = parser.parseDuration();
-
-      const plain = DurationUtils.compute(result);
-      return Duration.of(plain);
+      const plain = DurationUtils.compute(result, parsedOpt);
+      return Duration.of(plain, parsedOpt);
     } catch (e) {
       throw new DurationParseError(errorListener);
     }
@@ -51,17 +56,17 @@ export class DurationUtils {
     };
   };
 
-  private static compute = (context: ParseDurationContext): PlainDuration => {
+  private static compute = (context: ParseDurationContext, opt: ParsedOptions): PlainDuration => {
     const childContext = context.durationStatement() ?? context.durationExpression();
 
-    if (childContext === undefined) {
+    if (childContext === null) {
       throw new Error('Invalid duration input provided.');
     }
 
     const resultTimestamp = isDurationExpressionContext(childContext)
-      ? DurationExpression.of(childContext).solve()
-      : new DurationStatement(childContext).solve();
+      ? DurationExpression.of(childContext).solve(opt)
+      : new DurationStatement(childContext).solve(opt);
 
-    return PlainDurationUtils.getPlainDuration(resultTimestamp);
+    return PlainDurationUtils.getPlainDuration(resultTimestamp, opt);
   };
 }

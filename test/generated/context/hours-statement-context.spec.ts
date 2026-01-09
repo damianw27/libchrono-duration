@@ -7,6 +7,10 @@ describe('HoursStatementContext', () => {
   const listener: DurationListener = {
     enterHoursStatement: jest.fn(),
     exitHoursStatement: jest.fn(),
+    visitTerminal: jest.fn(),
+    visitErrorNode: jest.fn(),
+    enterEveryRule: jest.fn(),
+    exitEveryRule: jest.fn(),
   };
 
   const parser = DurationGrammarUtils.getParser('10h');
@@ -27,10 +31,10 @@ describe('HoursStatementContext', () => {
   });
 
   test('should get NUMBER token', () => {
-    expect(context.NUMBER().text).toBe('10');
+    expect(context.NUMBER().getText()).toBe('10');
   });
 
   test('should get HOUR token', () => {
-    expect(context.HOUR().text).toBe('h');
+    expect(context.HOUR().getText()).toBe('h');
   });
 });

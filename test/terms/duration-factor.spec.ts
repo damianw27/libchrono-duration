@@ -2,8 +2,11 @@ import { AntlrMocks } from '$test/_helpers_/antlr-mocks';
 import { DurationFactor } from '$terms/duration-factor';
 import { DurationStatement } from '$terms/duration-statement';
 import { DurationExpression } from '$terms/duration-expression';
+import { parseOptions } from '$core/option-utils';
+import { defaultOptions } from '$core/default-options';
 
 describe('DurationFactor', () => {
+  const opt = parseOptions(defaultOptions);
   const antlrMocks = new AntlrMocks();
 
   describe('#of', () => {
@@ -31,7 +34,7 @@ describe('DurationFactor', () => {
     test('returns the solve result of the content', () => {
       const context = antlrMocks.durationFactorContextStatement1Mock;
       const result = DurationFactor.of(context);
-      expect(result.solve()).not.toBe(NaN);
+      expect(result.solve(opt)).not.toBe(NaN);
     });
   });
 });

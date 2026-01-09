@@ -7,6 +7,10 @@ describe('DurationStatementContext', () => {
   const listener: DurationListener = {
     enterDurationStatement: jest.fn(),
     exitDurationStatement: jest.fn(),
+    visitTerminal: jest.fn(),
+    visitErrorNode: jest.fn(),
+    enterEveryRule: jest.fn(),
+    exitEveryRule: jest.fn(),
   };
 
   const parser = DurationGrammarUtils.getParser('1w 2d 10h 5m 30s 300ms');
@@ -27,26 +31,26 @@ describe('DurationStatementContext', () => {
   });
 
   test('should get week statement', () => {
-    expect(context.weeksStatement()?.text).toBe('1w');
+    expect(context.weeksStatement()?.getText()).toBe('1w');
   });
 
   test('should get days statement', () => {
-    expect(context.daysStatement()?.text).toBe('2d');
+    expect(context.daysStatement()?.getText()).toBe('2d');
   });
 
   test('should get hours statement', () => {
-    expect(context.hoursStatement()?.text).toBe('10h');
+    expect(context.hoursStatement()?.getText()).toBe('10h');
   });
 
   test('should get minutes statement', () => {
-    expect(context.minutesStatement()?.text).toBe('5m');
+    expect(context.minutesStatement()?.getText()).toBe('5m');
   });
 
   test('should get seconds statement', () => {
-    expect(context.secondsStatement()?.text).toBe('30s');
+    expect(context.secondsStatement()?.getText()).toBe('30s');
   });
 
   test('should get milliseconds statement', () => {
-    expect(context.millisecondsStatement()?.text).toBe('300ms');
+    expect(context.millisecondsStatement()?.getText()).toBe('300ms');
   });
 });

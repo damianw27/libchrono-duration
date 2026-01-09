@@ -1,47 +1,54 @@
-import { ParserRuleContext } from 'antlr4ts/ParserRuleContext';
-import { DurationStatementContext } from '$generated/context/duration-statement-context';
-import { TerminalNode } from 'antlr4ts/tree/TerminalNode';
-import { DurationListener } from '$generated/duration-listener';
-import { DurationParser } from '$generated/duration-parser';
-import { DurationExpressionContext } from '$generated/context/duration-expression-context';
+import { ParserRuleContext, TerminalNode } from "antlr4";
+import { DurationExpressionContext } from "$generated/context/duration-expression-context";
+import { DurationListener } from "$generated/duration-listener";
+import DurationVisitor from "$generated/duration-visitor";
+import { DurationParser } from "$generated/duration-parser";
+import { DurationStatementContext } from "$generated/context/duration-statement-context";
 
 export class DurationFactorContext extends ParserRuleContext {
-  public durationStatement(): DurationStatementContext | undefined {
-    return this.tryGetRuleContext(0, DurationStatementContext);
-  }
-
-  public LP(): TerminalNode | undefined {
-    return this.tryGetToken(DurationParser.LP, 0);
-  }
-
-  public durationExpression(): DurationExpressionContext | undefined {
-    return this.tryGetRuleContext(0, DurationExpressionContext);
-  }
-
-  public RP(): TerminalNode | undefined {
-    return this.tryGetToken(DurationParser.RP, 0);
-  }
-
-  constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+  constructor(parser?: DurationParser, parent?: ParserRuleContext, invokingState?: number) {
     super(parent, invokingState);
+    this.parser = parser;
   }
 
-  // @Override
+  public durationStatement(): DurationStatementContext {
+    return this.getTypedRuleContext(DurationStatementContext, 0) as DurationStatementContext;
+  }
+
+  public LP(): TerminalNode {
+    return this.getToken(DurationParser.LP, 0);
+  }
+
+  public durationExpression(): DurationExpressionContext {
+    return this.getTypedRuleContext(DurationExpressionContext, 0) as DurationExpressionContext;
+  }
+
+  public RP(): TerminalNode {
+    return this.getToken(DurationParser.RP, 0);
+  }
+
   public get ruleIndex(): number {
     return DurationParser.RULE_durationFactor;
   }
 
-  // @Override
   public enterRule(listener: DurationListener): void {
     if (listener.enterDurationFactor) {
       listener.enterDurationFactor(this);
     }
   }
 
-  // @Override
   public exitRule(listener: DurationListener): void {
     if (listener.exitDurationFactor) {
       listener.exitDurationFactor(this);
+    }
+  }
+
+  // @Override
+  public accept<Result>(visitor: DurationVisitor<Result>): Result {
+    if (visitor.visitDurationFactor) {
+      return visitor.visitDurationFactor(this);
+    } else {
+      return visitor.visitChildren(this);
     }
   }
 }

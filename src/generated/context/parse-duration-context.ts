@@ -1,43 +1,53 @@
-import { ParserRuleContext } from 'antlr4ts/ParserRuleContext';
-import { DurationStatementContext } from '$generated/context/duration-statement-context';
-import { TerminalNode } from 'antlr4ts/tree/TerminalNode';
-import { DurationExpressionContext } from '$generated/context/duration-expression-context';
-import { DurationListener } from '$generated/duration-listener';
-import { DurationParser } from '$generated/duration-parser';
+import { ParserRuleContext, TerminalNode } from "antlr4";
+import { DurationListener } from "$generated/duration-listener";
+import DurationVisitor from "$generated/duration-visitor";
+import {
+  DurationParser,
+
+} from "$generated/duration-parser";
+import { DurationExpressionContext } from "$generated/context/duration-expression-context";
+import { DurationStatementContext } from "$generated/context/duration-statement-context";
 
 export class ParseDurationContext extends ParserRuleContext {
-  public durationStatement(): DurationStatementContext | undefined {
-    return this.tryGetRuleContext(0, DurationStatementContext);
+  constructor(parser?: DurationParser, parent?: ParserRuleContext, invokingState?: number) {
+    super(parent, invokingState);
+    this.parser = parser;
+  }
+
+  public durationStatement(): DurationStatementContext {
+    return this.getTypedRuleContext(DurationStatementContext, 0) as DurationStatementContext;
   }
 
   public EOF(): TerminalNode {
     return this.getToken(DurationParser.EOF, 0);
   }
 
-  public durationExpression(): DurationExpressionContext | undefined {
-    return this.tryGetRuleContext(0, DurationExpressionContext);
+  public durationExpression(): DurationExpressionContext {
+    return this.getTypedRuleContext(DurationExpressionContext, 0) as DurationExpressionContext;
   }
 
-  constructor(parent: ParserRuleContext | undefined, invokingState: number) {
-    super(parent, invokingState);
-  }
-
-  // @Override
   public get ruleIndex(): number {
     return DurationParser.RULE_parseDuration;
   }
 
-  // @Override
   public enterRule(listener: DurationListener): void {
     if (listener.enterParseDuration) {
       listener.enterParseDuration(this);
     }
   }
 
-  // @Override
   public exitRule(listener: DurationListener): void {
     if (listener.exitParseDuration) {
       listener.exitParseDuration(this);
+    }
+  }
+
+  // @Override
+  public accept<Result>(visitor: DurationVisitor<Result>): Result {
+    if (visitor.visitParseDuration) {
+      return visitor.visitParseDuration(this);
+    } else {
+      return visitor.visitChildren(this);
     }
   }
 }

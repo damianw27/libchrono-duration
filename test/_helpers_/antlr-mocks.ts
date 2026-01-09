@@ -1,7 +1,6 @@
 import { TermOperator } from '$terms/types/term-operator';
 import { ExpressionOperator } from '$terms/types/expression-operator';
-import { DurationUnits } from '$terms/duration-statement';
-import { TerminalNode } from 'antlr4ts/tree/TerminalNode';
+import { DurationContext } from '$terms/duration-statement';
 import { DurationStatementContext } from '$generated/context/duration-statement-context';
 import { DurationFactorContext } from '$generated/context/duration-factor-context';
 import { DurationTermTailContext } from '$generated/context/duration-term-tail-context';
@@ -9,26 +8,28 @@ import { DurationTermContext } from '$generated/context/duration-term-context';
 import { DurationExpressionTailContext } from '$generated/context/duration-expression-tail-context';
 import { DurationExpressionContext } from '$generated/context/duration-expression-context';
 import { ParseDurationContext } from '$generated/context/parse-duration-context';
+import { TerminalNode } from 'antlr4';
 
-const mockDurationUnitContext = (text?: string): DurationUnits =>
-  ({ text } as unknown as DurationUnits);
+const mockDurationUnitContext = (text?: string): DurationContext =>
+  ({ text, getText: () => text }) as unknown as DurationContext;
 
-const mockTerminalNode = (text: string): TerminalNode => ({ text } as unknown as TerminalNode);
+const mockTerminalNode = (text: string): TerminalNode =>
+  ({ text, getText: () => text }) as unknown as TerminalNode;
 
 export class AntlrMocks {
   public durationStatementContextEmptyMock: DurationStatementContext = {
-    weeksStatement: () => undefined,
-    daysStatement: () => undefined,
-    hoursStatement: () => undefined,
-    minutesStatement: () => undefined,
-    secondsStatement: () => undefined,
-    millisecondsStatement: () => undefined,
+    weeksStatement: () => null,
+    daysStatement: () => null,
+    hoursStatement: () => null,
+    minutesStatement: () => null,
+    secondsStatement: () => null,
+    millisecondsStatement: () => null,
   } as unknown as DurationStatementContext;
 
   public durationStatementContextUnrecognizedMock: DurationStatementContext = {
-    weeksStatement: () => undefined,
+    weeksStatement: () => null,
     daysStatement: () => mockDurationUnitContext('2d'),
-    hoursStatement: () => undefined,
+    hoursStatement: () => null,
     minutesStatement: () => mockDurationUnitContext('4m'),
     secondsStatement: () => mockDurationUnitContext('5s'),
     millisecondsStatement: () => mockDurationUnitContext('100ms'),
@@ -54,9 +55,9 @@ export class AntlrMocks {
   } as unknown as DurationStatementContext;
 
   public durationStatementContext2Mock: DurationStatementContext = {
-    weeksStatement: () => undefined,
+    weeksStatement: () => null,
     daysStatement: () => mockDurationUnitContext('2d'),
-    hoursStatement: () => undefined,
+    hoursStatement: () => null,
     minutesStatement: () => mockDurationUnitContext('4m'),
     secondsStatement: () => mockDurationUnitContext('5s'),
     millisecondsStatement: () => mockDurationUnitContext('100ms'),
@@ -64,27 +65,27 @@ export class AntlrMocks {
 
   public durationFactorContextStatement1Mock: DurationFactorContext = {
     durationStatement: () => this.durationStatementContext1Mock,
-    durationExpression: () => undefined,
+    durationExpression: () => null,
   } as unknown as DurationFactorContext;
 
   public durationFactorContextStatement2Mock: DurationFactorContext = {
     durationStatement: () => this.durationStatementContext2Mock,
-    durationExpression: () => undefined,
+    durationExpression: () => null,
   } as unknown as DurationFactorContext;
 
   public durationTermTailDivContextMock: DurationTermTailContext = {
     DIV: () => TermOperator.DIV,
-    NUMBER: () => mockTerminalNode('2'),
+    valueStatement: () => mockTerminalNode('2'),
   } as unknown as DurationTermTailContext;
 
   public durationTermTailMulContextMock: DurationTermTailContext = {
-    DIV: () => undefined,
-    NUMBER: () => mockTerminalNode('4'),
+    DIV: () => null,
+    valueStatement: () => mockTerminalNode('4'),
   } as unknown as DurationTermTailContext;
 
   public durationTermContext1Mock: DurationTermContext = {
     durationFactor: () => this.durationFactorContextStatement1Mock,
-    durationTermTail: () => [
+    durationTermTail_list: () => [
       this.durationTermTailDivContextMock,
       this.durationTermTailMulContextMock,
     ],
@@ -92,12 +93,12 @@ export class AntlrMocks {
 
   public durationTermContext2Mock: DurationTermContext = {
     durationFactor: () => this.durationFactorContextStatement2Mock,
-    durationTermTail: () => [],
+    durationTermTail_list: () => [],
   } as unknown as DurationTermContext;
 
   public durationExpressionContext1Mock: DurationExpressionContext = {
     durationTerm: () => this.durationTermContext1Mock,
-    durationExpressionTail: () => [],
+    durationExpressionTail_list: () => [],
   } as unknown as DurationExpressionContext;
 
   public durationExpressionTailContextAddMock: DurationExpressionTailContext = {
@@ -106,41 +107,41 @@ export class AntlrMocks {
   } as unknown as DurationExpressionTailContext;
 
   public durationExpressionTailContextSubMock: DurationExpressionTailContext = {
-    ADD: () => undefined,
+    ADD: () => null,
     durationExpression: () => this.durationExpressionContext1Mock,
   } as unknown as DurationExpressionTailContext;
 
   public durationExpressionContextNoTailsMock: DurationExpressionContext = {
     durationTerm: () => this.durationTermContext2Mock,
-    durationExpressionTail: () => [],
+    durationExpressionTail_list: () => [],
   } as unknown as DurationExpressionContext;
 
   public durationExpressionContextOneTailMock: DurationExpressionContext = {
     durationTerm: () => this.durationTermContext2Mock,
-    durationExpressionTail: () => [this.durationExpressionTailContextAddMock],
+    durationExpressionTail_list: () => [this.durationExpressionTailContextAddMock],
   } as unknown as DurationExpressionContext;
 
   public durationExpressionContextMultipleTailMock: DurationExpressionContext = {
     durationTerm: () => this.durationTermContext2Mock,
-    durationExpressionTail: () => [
+    durationExpressionTail_list: () => [
       this.durationExpressionTailContextAddMock,
       this.durationExpressionTailContextSubMock,
     ],
   } as unknown as DurationExpressionContext;
 
   public durationFactorContextEmptyMock: DurationFactorContext = {
-    durationStatement: () => undefined,
-    durationExpression: () => undefined,
+    durationStatement: () => null,
+    durationExpression: () => null,
   } as unknown as DurationFactorContext;
 
   public durationFactorContextAddMock: DurationFactorContext = {
-    durationStatement: () => undefined,
+    durationStatement: () => null,
     durationExpression: () => this.durationExpressionContextOneTailMock,
   } as unknown as DurationFactorContext;
 
   public parseDurationContextEmptyMock: ParseDurationContext = {
-    durationStatement: () => undefined,
-    durationExpression: () => undefined,
+    durationStatement: () => null,
+    durationExpression: () => null,
   } as unknown as ParseDurationContext;
 
   public parseDurationContextDefinedMock: ParseDurationContext = {

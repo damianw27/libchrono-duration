@@ -6,6 +6,10 @@ describe('DurationTermTailContext', () => {
   const listener: DurationListener = {
     enterDurationTermTail: jest.fn(),
     exitDurationTermTail: jest.fn(),
+    visitTerminal: jest.fn(),
+    visitErrorNode: jest.fn(),
+    enterEveryRule: jest.fn(),
+    exitEveryRule: jest.fn(),
   };
 
   const parser = DurationGrammarUtils.getParser('10d * 2');
@@ -26,14 +30,14 @@ describe('DurationTermTailContext', () => {
   });
 
   test('should get NUMBER token', () => {
-    expect(context.NUMBER()?.text).toBe('2');
+    expect(context.valueStatement()?.getText()).toBe('2');
   });
 
   test('should get DIV token', () => {
-    expect(context.DIV()?.text).toBeUndefined();
+    expect(context.DIV()?.getText()).toBeUndefined();
   });
 
   test('should get MUL token', () => {
-    expect(context.MUL()?.text).toBe('*');
+    expect(context.MUL()?.getText()).toBe('*');
   });
 });

@@ -1,41 +1,49 @@
-import { ParserRuleContext } from 'antlr4ts/ParserRuleContext';
-import { TerminalNode } from 'antlr4ts/tree/TerminalNode';
-import { DurationListener } from '$generated/duration-listener';
-import { DurationParser } from '$generated/duration-parser';
+import { ParserRuleContext, TerminalNode } from "antlr4";
+import { DurationListener } from "$generated/duration-listener";
+import DurationVisitor from "$generated/duration-visitor";
+import { DurationParser } from "$generated/duration-parser";
+import { ValueStatementContext } from "$generated/context/value-statement-context";
 
 export class DurationTermTailContext extends ParserRuleContext {
-  public NUMBER(): TerminalNode {
-    return this.getToken(DurationParser.NUMBER, 0);
-  }
-
-  public MUL(): TerminalNode | undefined {
-    return this.tryGetToken(DurationParser.MUL, 0);
-  }
-
-  public DIV(): TerminalNode | undefined {
-    return this.tryGetToken(DurationParser.DIV, 0);
-  }
-
-  constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+  constructor(parser?: DurationParser, parent?: ParserRuleContext, invokingState?: number) {
     super(parent, invokingState);
+    this.parser = parser;
   }
 
-  // @Override
+  public valueStatement(): ValueStatementContext {
+    return this.getTypedRuleContext(ValueStatementContext, 0) as ValueStatementContext;
+  }
+
+  public MUL(): TerminalNode {
+    return this.getToken(DurationParser.MUL, 0);
+  }
+
+  public DIV(): TerminalNode {
+    return this.getToken(DurationParser.DIV, 0);
+  }
+
   public get ruleIndex(): number {
     return DurationParser.RULE_durationTermTail;
   }
 
-  // @Override
   public enterRule(listener: DurationListener): void {
     if (listener.enterDurationTermTail) {
       listener.enterDurationTermTail(this);
     }
   }
 
-  // @Override
   public exitRule(listener: DurationListener): void {
     if (listener.exitDurationTermTail) {
       listener.exitDurationTermTail(this);
+    }
+  }
+
+  // @Override
+  public accept<Result>(visitor: DurationVisitor<Result>): Result {
+    if (visitor.visitDurationTermTail) {
+      return visitor.visitDurationTermTail(this);
+    } else {
+      return visitor.visitChildren(this);
     }
   }
 }

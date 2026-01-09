@@ -1,6 +1,6 @@
 import { DurationErrorListener } from '$core/duration-error-listener';
 import { DurationLexer } from '$generated/duration-lexer';
-import { CharStreams, CommonTokenStream } from 'antlr4ts';
+import { CharStreams, CommonTokenStream } from 'antlr4';
 import { DurationParser } from '$generated/duration-parser';
 
 /**
