@@ -114,4 +114,4 @@ console.log(duration3.isValid); // Output: false
 - ~~simple format function to display duration literal from timestamp~~
 - ~~add option to convert Duration to count of specific unit~~
 - ~~added JSDoc for methods and classes~~
-- add option to set schema for duration (assign count of hours in day and days in week)
+- ~~add option to set schema for duration (assign count of hours in day and days in week)~~
