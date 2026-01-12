@@ -1,6 +1,6 @@
 {
   "name": "@libchrono/duration",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Small library to handle durations parsing and displaying.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
