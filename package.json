@@ -36,8 +36,8 @@
     "build:all": "bun run build:lib && bun run build:types",
     "test": "jest",
     "coverage": "bun run test --coverage && make-coverage-badge",
-    "documentation:generate": "typedoc ./src/index.ts",
-    "documentation:deploy": "gh-pages -d docs",
+    "doc:generate": "typedoc ./src/index.ts",
+    "doc:deploy": "gh-pages -d docs",
     "deploy": "bun run test && bun run build:all && npm publish"
   },
   "devDependencies": {
