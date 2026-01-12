@@ -1,22 +1,22 @@
-# @libchrono/core
+# @libchrono/duration
 
-[![npm version](https://badge.fury.io/js/%40libchrono%2Fcore.svg)](https://badge.fury.io/js/%40libchrono%2Fcore)
+[![npm version](https://badge.fury.io/js/%40libchrono%2Fcore.svg)](https://badge.fury.io/js/%40libchrono%2Fduration)
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 ![](coverage/badge.svg)
 
-@libchrono/core is a library for parsing and validating strings representing durations of time. It provides a convenient way to parse strings like "1w 2h" into `Duration` objects, and provides convenient functions for performing basic math operations on those objects. So whether you need to parse duration strings, or perform calculations on them, @libchrono/core is the perfect library for your project.
+@libchrono/duration is a library for parsing and validating strings representing durations of time. It provides a convenient way to parse strings like "1w 2h" into `Duration` objects, and provides convenient functions for performing basic math operations on those objects. So whether you need to parse duration strings, or perform calculations on them, @libchrono/duration is the perfect library for your project.
 ## Installation
 
-To use @libchrono/core in your project, install it via npm:
+To use @libchrono/duration in your project, install it via npm:
 
 ```
-npm install @libchrono/core
+npm install @libchrono/duration
 ```
 
 or yarn:
 
 ```
-yarn add @libchrono/core
+yarn add @libchrono/duration
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ yarn add @libchrono/core
 Parse duration literal to Duration object:
 
 ```js
-const { DurationUtils } = require('@libchrono/core');
+const { DurationUtils } = require('@libchrono/duration');
 
 const duration = DurationUtils.parse('1w 2h');
 
@@ -62,7 +62,7 @@ console.log(duration);
 Parse duration literal with operations to Duration object:
 
 ```js
-const { DurationUtils } = require('@libchrono/core');
+const { DurationUtils } = require('@libchrono/duration');
 
 const duration = DurationUtils.parse('(1w 2h + 5h + 30m) * 2');
 
@@ -72,7 +72,7 @@ console.log(duration.toStringLiteral()); // Output: 2w 15h
 Parse duration literal to Duration object and perform operations:
 
 ```js
-const { DurationUtils } = require('@libchrono/core');
+const { DurationUtils } = require('@libchrono/duration');
 
 const duration = DurationUtils.parse('1w');
 
@@ -92,7 +92,7 @@ console.log(duration.div(2).toStringLiteral());
 Validate duration literal
 
 ```js
-const { DurationUtils } = require('@libchrono/core');
+const { DurationUtils } = require('@libchrono/duration');
 
 const duration1 = DurationUtils.validate('1w 2h');
 
@@ -106,12 +106,3 @@ const duration3 = DurationUtils.validate('1d 1w');
 
 console.log(duration3.isValid); // Output: false
 ```
-
-## Todo
-
-- ~~support for arithmetic operations in Duration object~~
-- ~~support for arithmetic operations in duration literal~~
-- ~~simple format function to display duration literal from timestamp~~
-- ~~add option to convert Duration to count of specific unit~~
-- ~~added JSDoc for methods and classes~~
-- ~~add option to set schema for duration (assign count of hours in day and days in week)~~

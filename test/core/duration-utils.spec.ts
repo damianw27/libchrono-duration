@@ -1,5 +1,6 @@
 import { DurationUtils } from '$core/duration-utils';
 import { DurationParseError } from '$core/duration-parse-error';
+import { Options } from '$core/types/options';
 
 describe('DurationUtils', () => {
   describe('#parse', () => {
@@ -40,6 +41,58 @@ describe('DurationUtils', () => {
     test('should return result of arithmetic operation in literal with nested expression', () => {
       const duration1 = DurationUtils.parse('(1w 2h + 5h + 30m) * 2');
       expect(duration1.toStringLiteral()).toEqual('2w 15h');
+    });
+
+    it('should parse correctly the duration literal with custom options', () => {
+      const options: Options = {
+        daytime: {
+          from: '08:00',
+          to: '16:00',
+        },
+        daysInWeek: 5,
+      };
+
+      const duration1 = DurationUtils.parse('1w 5d', options);
+      expect(duration1.toStringLiteral()).toEqual('2w');
+    });
+
+    it('should parse correctly the duration literal with custom options and expression', () => {
+      const options: Options = {
+        daytime: {
+          from: '08:00',
+          to: '16:00',
+        },
+        daysInWeek: 5,
+      };
+
+      const duration1 = DurationUtils.parse('1w 5d + 3d', options);
+      expect(duration1.toStringLiteral()).toEqual('2w 3d');
+    });
+
+    it('should parse correctly the duration literal with custom options and term', () => {
+      const options: Options = {
+        daytime: {
+          from: '08:00',
+          to: '16:00',
+        },
+        daysInWeek: 5,
+      };
+
+      const duration1 = DurationUtils.parse('1w 5d * 4', options);
+      expect(duration1.toStringLiteral()).toEqual('8w');
+    });
+
+    it('should parse correctly the duration literal with custom options and term and expression in correct order', () => {
+      const options: Options = {
+        daytime: {
+          from: '08:00',
+          to: '16:00',
+        },
+        daysInWeek: 5,
+      };
+
+      const duration1 = DurationUtils.parse('1w + 5d * 4', options);
+      expect(duration1.toStringLiteral()).toEqual('5w');
     });
   });
 

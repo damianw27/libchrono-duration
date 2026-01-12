@@ -59,10 +59,8 @@ export class PlainDurationUtils {
    * @param {number} timestamp - duration timestamp
    * @param {ParsedOptions} opt
    */
-  public static getHours = (timestamp: number, opt: ParsedOptions): number => {
-    const hoursInDay = opt.dayLengthInMillis / millisInHour;
-    return Math.floor(timestamp / millisInHour) % hoursInDay;
-  };
+  public static getHours = (timestamp: number, opt: ParsedOptions): number =>
+    Math.floor(timestamp / millisInHour) % opt.hoursInDay;
 
   /**
    * Method witch allows to extract minutes count from timestamp in number format.

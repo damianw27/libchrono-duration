@@ -3,11 +3,10 @@ import { calculateMilitaryTimeWindowInSec } from '@libchrono/time';
 import { Options } from '$core/types/options';
 
 const millisInHour = 3_600_000;
-const minuteInMillis = 60_000;
 
 export const parseOptions = (opt: Options): ParsedOptions => {
   const dayLengthInMillis =
-    calculateMilitaryTimeWindowInSec(opt.daytime.from, opt.daytime.to) * 1000 + minuteInMillis;
+    calculateMilitaryTimeWindowInSec(opt.daytime.from, opt.daytime.to) * 1000;
 
   return {
     dayLengthInMillis,
