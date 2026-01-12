@@ -1,6 +1,6 @@
 # @libchrono/duration
 
-[![npm version](https://badge.fury.io/js/%40libchrono%2Fcore.svg)](https://badge.fury.io/js/%40libchrono%2Fduration)
+[![npm version](https://badge.fury.io/js/%40libchrono%2Fduration.svg)](https://badge.fury.io/js/%40libchrono%2Fduration)
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 ![](coverage/badge.svg)
 
