@@ -1,5 +1,5 @@
-import { ParsedOptions } from '$core/types/parsed-options';
+import type { ParsedOptions } from '$core/types/parsed-options';
 
 export interface BaseTail {
-  readonly apply: (timestamp: number, opt: ParsedOptions) => number;
+	readonly apply: (timestamp: number, opt: ParsedOptions) => number;
 }

@@ -1,9 +1,9 @@
 {
-  "entryPoints": [
-    "src/core/duration.ts",
-    "src/core/duration-utils.ts",
-    "src/core/plain-duration-utils.ts",
-    "src/core/types/plain-duration.ts"
-  ],
-  "out": "docs"
+	"entryPoints": [
+		"src/core/duration.ts",
+		"src/core/duration-utils.ts",
+		"src/core/plain-duration-utils.ts",
+		"src/core/types/plain-duration.ts"
+	],
+	"out": "docs"
 }

@@ -1,6 +1,6 @@
-import { Daytime } from '$core/types/daytime';
+import type { Daytime } from '$core/types/daytime';
 
 export interface Options {
-  readonly daytime: Daytime;
-  readonly daysInWeek: number;
+	readonly daytime: Daytime;
+	readonly daysInWeek: number;
 }

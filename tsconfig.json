@@ -1,44 +1,29 @@
 {
-  "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs",
-    "resolveJsonModule": true,
-    "declaration": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": false,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "skipLibCheck": true,
-    "outDir": "./dist",
-    "declarationDir": "./dist",
-    "baseUrl": ".",
-    "paths": {
-      "$root/*": [
-        "src/*"
-      ],
-      "$core/*": [
-        "src/core/*"
-      ],
-      "$generated/*": [
-        "src/generated/*"
-      ],
-      "$terms/*": [
-        "src/terms/*"
-      ],
-      "$test/*": [
-        "test/*"
-      ]
-    }
-  },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "docs",
-    "webpack.config.js"
-  ]
+	"compilerOptions": {
+		"target": "es2016",
+		"module": "commonjs",
+		"resolveJsonModule": true,
+		"declaration": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": false,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"strictPropertyInitialization": true,
+		"skipLibCheck": true,
+		"outDir": "./dist",
+		"declarationDir": "./dist/types",
+		"baseUrl": ".",
+		"paths": {
+			"$root/*": ["src/*"],
+			"$core/*": ["src/core/*"],
+			"$generated/*": ["src/generated/*"],
+			"$terms/*": ["src/terms/*"],
+			"$test/*": ["test/*"]
+		}
+	},
+	"exclude": ["node_modules", "dist", "docs"]
 }

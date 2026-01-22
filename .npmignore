@@ -1,8 +1,12 @@
+/coverage
+/docs
 /src
+/test
 /node_modules
-.prettierrc.json
-.eslintrc.json
+.editorconfig
+.gitattribute
 .gitignore
-jsdoc.json
-webpack.config.js
-yarn.lock
+.npmignore
+biome.json
+bun.lock
+typedoc.json

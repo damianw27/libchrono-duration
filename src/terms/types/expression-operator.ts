@@ -1,4 +1,4 @@
 export enum ExpressionOperator {
-  ADD,
-  SUB,
+	ADD,
+	SUB,
 }

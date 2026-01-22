@@ -1,5 +1,5 @@
-import { ParsedOptions } from '$core/types/parsed-options';
+import type { ParsedOptions } from '$core/types/parsed-options';
 
 export interface BaseOperand {
-  readonly solve: (opt: ParsedOptions) => number;
+	readonly solve: (opt: ParsedOptions) => number;
 }

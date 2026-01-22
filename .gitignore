@@ -1,6 +1,7 @@
-.idea
-node_modules
-docs
-dist
-package-lock.json
-yarn-error.log
+/.idea
+/coverage
+/dist
+/docs
+/node_modules
+
+!/coverage/badge.svg

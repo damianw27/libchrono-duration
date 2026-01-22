@@ -1,4 +1,4 @@
 export enum TermOperator {
-  MUL,
-  DIV,
+	MUL,
+	DIV,
 }
