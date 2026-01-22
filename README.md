@@ -1,7 +1,7 @@
 # @libchrono/duration
 
 [![npm version](https://badge.fury.io/js/%40libchrono%2Fduration.svg)](https://badge.fury.io/js/%40libchrono%2Fduration)
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/damianw27/libchrono-duration/blob/main/LICENSE)
 ![](coverage/badge.svg)
 
 @libchrono/duration is a library for parsing and validating strings representing durations of time. It provides a convenient way to parse strings like "1w 2h" into `Duration` objects, and provides convenient functions for performing basic math operations on those objects. So whether you need to parse duration strings, or perform calculations on them, @libchrono/duration is the perfect library for your project.
