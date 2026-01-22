@@ -1,17 +1,17 @@
 {
 	"name": "@libchrono/duration",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "Small library to handle durations parsing and displaying.",
 	"exports": {
 		".": {
 			"types": "./dist/types/index.d.ts",
-			"import": "./dist/index.js"
-		},
-		"./browser": {
-			"types": "./dist/types/index.d.ts",
 			"import": "./dist/browser/index.js"
-		}
-	},
+		},
+    "./node": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/node/index.js"
+    }
+  },
 	"files": [
 		"dist/"
 	],
@@ -40,8 +40,8 @@
 	"scripts": {
 		"clean": "shx rm -rf dist",
 		"build:grammar": "antlr4 -Dlanguage=TypeScript -o src/generated ./src/antlr/Duration.g4 -visitor",
-		"build:node:esm": "bun build src/index.ts --outdir=dist --format=esm --target=node --minify",
-		"build:node:cjs": "bun build src/index.ts --outdir=dist --format=cjs --target=node --minify --outfile=dist/index.cjs",
+		"build:node:esm": "bun build src/index.ts --outdir=dist/node --format=esm --target=node --minify",
+		"build:node:cjs": "bun build src/index.ts --outdir=dist/node --format=cjs --target=node --minify --outfile=dist/index.cjs",
 		"build:browser:esm": "bun build src/index.ts --outdir=dist/browser --format=esm --target=browser",
 		"build:browser:esm:min": "bun build src/index.ts --outdir=dist/browser --format=esm --target=browser --minify --outfile=dist/browser/index.min.js",
 		"build:types": "tsc --emitDeclarationOnly -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
