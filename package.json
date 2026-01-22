@@ -1,6 +1,6 @@
 {
 	"name": "@libchrono/duration",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Small library to handle durations parsing and displaying.",
 	"exports": {
 		".": {
