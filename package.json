@@ -60,7 +60,7 @@
 		"shx": "^0.4.0",
 		"tsc-alias": "^1.8.4",
 		"typedoc": "^0.24.4",
-		"typescript": "^5.9.3"
+		"typescript": "^6.0.3"
 	},
 	"dependencies": {
 		"@libchrono/time": "^1.2.1",
